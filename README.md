@@ -1,8 +1,8 @@
 # 🌟 Star Size Predictor
 This project implements a Star Size Prediction application, allowing users to generate and predict star sizes based on brightness using a linear regression model. The project is built with a Streamlit frontend and a FastAPI backend.
 
-Here is me explaining the web application: https://drive.google.com/file/d/1oTS716M8ocJOzXLuSkTHMFfRYmEL8WR_/view?usp=sharing
-Here’s a detailed README.md file for your project:
+- Here is me explaining the web application: https://drive.google.com/file/d/1oTS716M8ocJOzXLuSkTHMFfRYmEL8WR_/view?usp=sharing
+* Here’s a detailed README.md file for your project:
 
 ## 📜 Table of Contents
 1) Features
