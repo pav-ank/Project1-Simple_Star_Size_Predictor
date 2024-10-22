@@ -3,7 +3,7 @@ import pandas as pd
 import requests
 import io
 
-# Custom CSS for styling, including background image and centered title
+# Custom CSS for styling, including background image
 st.set_page_config(
     page_title="Star Size Predictor ✨",
     page_icon="🌞"
@@ -12,15 +12,6 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    .title-container {
-        text-align: center;
-        color: #FFFFFF;
-        margin-top: -50px;
-        padding: 20px;
-        background-color: rgba(0, 0, 0, 0.5);  /* Semi-transparent background for better readability */
-        border-radius: 10px;  /* Rounded corners for the container */
-    }
-
     .footer {
         position: fixed;
         left: 0;
@@ -38,14 +29,34 @@ st.markdown(
         background-position: center;
         background-attachment: fixed;
     }
+
+    /* Updated styling for the dialog box */
+    .dialog-box {
+        border: 2px solid #FFFFFF;  /* White border */
+        padding: 10px;
+        border-radius: 10px;
+        background-color: rgba(0, 0, 0, 0.9);  /* Black with slight transparency */
+        color: #F0F0F0;  /* Light white text */
+    }
     </style>
     """,
     unsafe_allow_html=True
 )
 
-# Title container
-with st.container():
-    st.markdown("<div class='title-container'><h1>🌟 Star Size Prediction</h1></div>", unsafe_allow_html=True)
+# Title (without container)
+st.markdown("<h1 style='text-align: center; color: #FFFFFF;'>🌟 Star Size Prediction</h1>", unsafe_allow_html=True)
+
+# Adding a dialogue box with updated color scheme (black background and light white text)
+st.markdown("""
+    <div class="dialog-box">
+        <h3>HOW TO USE THIS APP</h3>
+        <p>1) Enter the number of stars to generate a dataset with its brightness and size values.</p>
+        <p>2) Click on the 'Generate Data' button.</p>
+        <p>3) The app will generate the data and automatically predict the sizes using Linear Regression.</p>
+        <p>4) Click on the 'Generate Plot' button, and it will plot the true sizes and predicted sizes based on brightness values.</p>
+        <p>5) You can now download the generated data, predicted data, and the plot.</p>
+    </div>
+""", unsafe_allow_html=True)
 
 # Input section for the number of stars
 num_stars = st.number_input("Enter the number of stars to generate:", min_value=1, value=500)
@@ -83,11 +94,11 @@ col1, col2 = st.columns(2)
 if st.session_state.df_generated is not None and st.session_state.df_predictions is not None:
     with col1:
         st.subheader("Generated Data")
-        st.dataframe(st.session_state.df_generated)
+        st.dataframe(st.session_state.df_generated)  # No explicit download button needed; Streamlit adds hover download option
 
     with col2:
         st.subheader("Predicted Data")
-        st.dataframe(st.session_state.df_predictions)
+        st.dataframe(st.session_state.df_predictions)  # No explicit download button needed
 
 # Button to generate plot after data and predictions are available
 if st.button("Generate Plot"):
@@ -96,7 +107,17 @@ if st.button("Generate Plot"):
 
         if plot_response.status_code == 200:
             plot_image = plot_response.content
+
+            # Display the plot as an image
             st.image(plot_image, caption='Linear Regression Plot', use_column_width=True)
+
+            # Provide plot as a downloadable file (hover to download, like with dataframes)
+            st.download_button(
+                label="Download Plot",
+                data=plot_image,
+                file_name="linear_regression_plot.png",
+                mime="image/png"
+            )
         else:
             st.error("Failed to generate plot. Please try again.")
 
