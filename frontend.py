@@ -61,7 +61,7 @@ st.markdown("""
 # Input section for the number of stars
 num_stars = st.number_input("Enter the number of stars to generate:", min_value=1, value=500)
 
-API_URL = "http://127.0.0.1:8000"
+API_URL = "https://project1-simple-star-size-predictor.onrender.com/"
 
 # State variables to hold data between interactions
 if 'df_generated' not in st.session_state:
